@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "94927862750",
+    "firebase_url": "https://pharmaciesh-18389.firebaseio.com",
+    "project_id": "pharmaciesh-18389",
+    "storage_bucket": "pharmaciesh-18389.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:94927862750:android:49f75d5821c4fc7e",
+        "android_client_info": {
+          "package_name": "com.pharmaciesh"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "94927862750-bv44cgrijfg4qjiskalqovk3rdtafkt2.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.pharmaciesh",
+            "certificate_hash": "bbecbc035bc7065123c968c5376fb304a9511c2a"
+          }
+        },
+        {
+          "client_id": "94927862750-frf7fe5a1e956j9n51cb9b23sf8v9r9k.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCIYAoY9f2lgSk_nxrwvkFpLYNMXwWJB0w"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "94927862750-frf7fe5a1e956j9n51cb9b23sf8v9r9k.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
