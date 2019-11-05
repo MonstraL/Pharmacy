@@ -33,15 +33,12 @@ import com.pharmaciesh.utils.DatabaseHandler;
 import com.pharmaciesh.utils.GPSTracker;
 import com.squareup.picasso.Picasso;
 
-import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Iterator;
 import java.util.List;
-import java.util.TimeZone;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -49,7 +46,6 @@ import retrofit2.Response;
 
 public class PharmaciesActivity extends AppCompatActivity {
 
-    private CompoundButton compoundButton;
     private GPSTracker gps = new GPSTracker(PharmaciesActivity.this);
 
     private Dialog chainDialog;
@@ -84,14 +80,14 @@ public class PharmaciesActivity extends AppCompatActivity {
         while(pharmacyIterator.hasNext())
         {
             //Child layout xml refrence
-            View view=layoutInfralte.inflate(R.layout.pharmacy_item, null);
+            View pharmacyItemView=layoutInfralte.inflate(R.layout.pharmacy_item, null);
 
-            nameText = view.findViewById(R.id.pharmacy_nameText);
-            addressText = view.findViewById(R.id.pharmacy_addressText);
-            stageText = view.findViewById(R.id.pharmacy_stageText);
-            priceText = view.findViewById(R.id.pharmacy_priceText);
+            nameText = pharmacyItemView.findViewById(R.id.pharmacy_nameText);
+            addressText = pharmacyItemView.findViewById(R.id.pharmacy_addressText);
+            stageText = pharmacyItemView.findViewById(R.id.pharmacy_stageText);
+            priceText = pharmacyItemView.findViewById(R.id.pharmacy_priceText);
 
-            chainButton = view.findViewById(R.id.pharmacy_infoButton);
+            chainButton = pharmacyItemView.findViewById(R.id.pharmacy_infoButton);
             chainDialog = new Dialog(this);
 
             final Pharmacy pharmacy = pharmacyIterator.next();
@@ -116,29 +112,29 @@ public class PharmaciesActivity extends AppCompatActivity {
             int day = new GregorianCalendar().get(Calendar.DAY_OF_WEEK);
             if(pharmacy.getOpeningTime().matches("00:00") || ( getCurrentTime.compareTo(pharmacy.getClosingTime()) < 0 && pharmacy.getOpeningTime().compareTo(getCurrentTime)<0 ))
                 switch (day){
-                    case 2: if(!pharmacy.getWorkDays().contains("Понеділок")){
-                        stageText.setText("Зачинено"); stageText.setTextColor(Color.RED);} break;
-                    case 3: if(!pharmacy.getWorkDays().contains("Вівторок")){
-                        stageText.setText("Зачинено"); stageText.setTextColor(Color.RED);} break;
-                    case 4: if(!pharmacy.getWorkDays().contains("Середа")) {
-                        stageText.setText("Зачинено"); stageText.setTextColor(Color.RED);} break;
-                    case 5: if(!pharmacy.getWorkDays().contains("Четвер")){
-                        stageText.setText("Зачинено"); stageText.setTextColor(Color.RED);} break;
-                    case 6: if(!pharmacy.getWorkDays().contains("П'ятниця")){
-                        stageText.setText("Зачинено"); stageText.setTextColor(Color.RED);} break;
-                    case 7: if(!pharmacy.getWorkDays().contains("Субота")){
-                        stageText.setText("Зачинено"); stageText.setTextColor(Color.RED);} break;
-                    case 1: if(!pharmacy.getWorkDays().contains("Неділя")){
-                        stageText.setText("Зачинено"); stageText.setTextColor(Color.RED);} break;
+                    case 2: if(!pharmacy.getWorkDays().contains(getString(R.string.pharmacy_day_monday))) {
+                        stageText.setText(getString(R.string.pharmacy_closed)); stageText.setTextColor(Color.RED);} break;
+                    case 3: if(!pharmacy.getWorkDays().contains(getString(R.string.pharmacy_day_tuesday))) {
+                        stageText.setText(getString(R.string.pharmacy_closed)); stageText.setTextColor(Color.RED);} break;
+                    case 4: if(!pharmacy.getWorkDays().contains(getString(R.string.pharmacy_day_wednesday))) {
+                        stageText.setText(getString(R.string.pharmacy_closed)); stageText.setTextColor(Color.RED);} break;
+                    case 5: if(!pharmacy.getWorkDays().contains(getString(R.string.pharmacy_day_thursday))) {
+                        stageText.setText(getString(R.string.pharmacy_closed)); stageText.setTextColor(Color.RED);} break;
+                    case 6: if(!pharmacy.getWorkDays().contains(getString(R.string.pharmacy_day_friday))) {
+                        stageText.setText(getString(R.string.pharmacy_closed)); stageText.setTextColor(Color.RED);} break;
+                    case 7: if(!pharmacy.getWorkDays().contains(getString(R.string.pharmacy_day_saturday))) {
+                        stageText.setText(getString(R.string.pharmacy_closed)); stageText.setTextColor(Color.RED);} break;
+                    case 1: if(!pharmacy.getWorkDays().contains(getString(R.string.pharmacy_day_sunday))) {
+                        stageText.setText(getString(R.string.pharmacy_closed)); stageText.setTextColor(Color.RED);} break;
               }
               else {
-                stageText.setText("Зачинено");
+                stageText.setText(getString(R.string.pharmacy_closed));
                 stageText.setTextColor(Color.RED);
             }
 
-            ImageView imageView = view.findViewById(R.id.pharmacy_infoButton);
+            ImageView imageView = pharmacyItemView.findViewById(R.id.pharmacy_infoButton);
             setImageFromURL(imageView, pharmacy.getChain().getEmblem());
-            linearLayout.addView(view);
+            linearLayout.addView(pharmacyItemView);
         }
     }
 
@@ -154,26 +150,26 @@ public class PharmaciesActivity extends AppCompatActivity {
     public void showChainDialog(final Pharmacy pharmacy){
         chainDialog.setContentView(R.layout.activity_chain);
 
-        ImageView chainEmblem = chainDialog.findViewById(R.id.emblemImageView);
-        TextView chainFoundation = chainDialog.findViewById(R.id.foundationTextView);
-        TextView chainName = chainDialog.findViewById(R.id.chainNameTextView);
-        TextView chainWorkers = chainDialog.findViewById(R.id.workersTextView);
-        TextView pharmacyAddress = chainDialog.findViewById(R.id.chainAddressTextView);
         TextView pharmacyWorkTime = chainDialog.findViewById(R.id.workTimeTextView);
-        Button goToNavigation = chainDialog.findViewById(R.id.locationButton);
         Button closeChain = chainDialog.findViewById(R.id.closeCardButton);
 
-        chainFoundation.setText(String.valueOf( pharmacy.getChain().getYear() ));
-        chainName.setText(pharmacy.getChain().getName());
-        chainWorkers.setText(String.valueOf( pharmacy.getChain().getEmployees() ));
-        pharmacyAddress.setText(pharmacy.getStreet().replace("+", " ") + " " + pharmacy.getHouseNum());
+        ((TextView) chainDialog.findViewById(R.id.foundationTextView))
+                .setText(String.valueOf( pharmacy.getChain().getYear()));
+        ((TextView) chainDialog.findViewById(R.id.chainNameTextView))
+                .setText(pharmacy.getChain().getName());
+        ((TextView) chainDialog.findViewById(R.id.workersTextView))
+                .setText(String.valueOf( pharmacy.getChain().getEmployees()));
+
+        ((TextView)chainDialog.findViewById(R.id.chainAddressTextView))
+                .setText(pharmacy.getStreet().replace("+", " ") + " " + pharmacy.getHouseNum());
 
         if(pharmacy.getOpeningTime().matches("00:00")&&pharmacy.getClosingTime().matches("00:00"))
-            pharmacyWorkTime.setText("цілодобово");
+            pharmacyWorkTime.setText(getString(R.string.pharmacy_all_day_work));
         else
             pharmacyWorkTime.setText(pharmacy.getOpeningTime() + " - " + pharmacy.getClosingTime());
 
-        setImageFromURL(chainEmblem, pharmacy.getChain().getEmblem());
+        setImageFromURL((ImageView) chainDialog.findViewById(R.id.emblemImageView),
+                pharmacy.getChain().getEmblem());
 
         closeChain.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -182,10 +178,12 @@ public class PharmaciesActivity extends AppCompatActivity {
             }
         });
 
-        goToNavigation.setOnClickListener(new View.OnClickListener() {
+        chainDialog.findViewById(R.id.closeCardButton).findViewById(R.id.locationButton)
+                .setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.google.com.ua/maps/place/"+pharmacy.getStreet()+",+"+pharmacy.getHouseNum()+"+Львів"));
+                Intent intent = new Intent(Intent.ACTION_VIEW,
+                        Uri.parse("https://www.google.com.ua/maps/place/"+pharmacy.getStreet()+",+"+pharmacy.getHouseNum()+"+Львів"));
                 startActivity(intent);
             }
         });
@@ -204,7 +202,7 @@ public class PharmaciesActivity extends AppCompatActivity {
         // display a progress dialog
         final ProgressDialog progressDialog = new ProgressDialog(PharmaciesActivity.this);
         progressDialog.setCancelable(false); // set cancelable to false
-        progressDialog.setMessage("Зачекайте, будь ласка"); // set message
+        progressDialog.setMessage(getString(R.string.progress_dialog_text)); // set message
         progressDialog.show(); // show progress dialog
 
         Api.getPharmacy().getPharmaciesByPrice(id).enqueue(new Callback<List<Pharmacy>>() {
@@ -213,7 +211,8 @@ public class PharmaciesActivity extends AppCompatActivity {
                 List<Pharmacy> pharmaciesList = response.body();
                 progressDialog.dismiss(); //dismiss progress dialog
                 if(pharmaciesList.isEmpty())
-                    failureDialog("Немає у наявності", "Попередня сторінка");
+                    failureDialog(getString(R.string.pharmacy_failure_to_find),
+                            getString(R.string.medication_failure_question_prev_page));
                 setResults(pharmaciesList);
                 // call this method to set the data in adapter
             }
@@ -221,7 +220,8 @@ public class PharmaciesActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<List<Pharmacy>> call, Throwable t) {
                 progressDialog.dismiss(); //dismiss progress dialog
-                failureDialog("Немає з'єднання з сервером", "Попередня сторінка");
+                failureDialog(getString(R.string.medication_failure_message),
+                        getString(R.string.medication_failure_question_prev_page));
                 t.printStackTrace();
             }
         });
@@ -233,7 +233,7 @@ public class PharmaciesActivity extends AppCompatActivity {
         // display a progress dialog
         final ProgressDialog progressDialog = new ProgressDialog(PharmaciesActivity.this);
         progressDialog.setCancelable(false); // set cancelable to false
-        progressDialog.setMessage("Зачекайте, будь ласка"); // set message
+        progressDialog.setMessage(getString(R.string.progress_dialog_text)); // set message
         progressDialog.show(); // show progress dialog
 
 
@@ -243,7 +243,8 @@ public class PharmaciesActivity extends AppCompatActivity {
                 List<Pharmacy> pharmaciesList = response.body();
                 progressDialog.dismiss(); //dismiss progress dialog
                 if(pharmaciesList == null || pharmaciesList.isEmpty())
-                    failureDialog("Немає у наявності", "Попередня сторінка");
+                    failureDialog(getString(R.string.pharmacy_failure_to_find),
+                            getString(R.string.medication_failure_question_prev_page));
                 setResults(pharmaciesList);
                 // call this method to set the data in adapter
             }
@@ -251,7 +252,7 @@ public class PharmaciesActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<List<Pharmacy>> call, Throwable t) {
                 progressDialog.dismiss(); //dismiss progress dialog
-                failureDialog("Немає з'єднання з сервером", "Попередня сторінка");
+                failureDialog(getString(R.string.medication_failure_message), getString(R.string.medication_failure_question_prev_page));
                 t.printStackTrace();
             }
         });
@@ -262,33 +263,35 @@ public class PharmaciesActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pharmacies);
 
-        final DatabaseHandler db = new DatabaseHandler(this);
+        initializeAds();
 
-        MobileAds.initialize(this, "ca-app-pub-3198313229258011~5462698642");
+        final Medication searchMedication = getIntent().getParcelableExtra(getString(R.string.medication_extra));
 
-        AdView mAdView = findViewById(R.id.adView);
-        AdRequest adRequest = new AdRequest.Builder().build();
-        mAdView.loadAd(adRequest);
-
-        final Medication searchMedication = getIntent().getParcelableExtra("Medication");
-
-        final FloatingActionButton addMedicationButton = findViewById(R.id.addFavoriteButton);
-        if(db.checkExists(searchMedication.getId()) || db.getMedicationsCount()>4) addMedicationButton.hide();
+        initMainButtons(searchMedication);
 
         searchPharmaciesByPrice(searchMedication.getId());
+    }
 
-        compoundButton = findViewById(R.id.search_switch);
+    private void initMainButtons(final Medication searchMedication){
+        final DatabaseHandler db = new DatabaseHandler(this);
+
+        final FloatingActionButton addMedicationButton = findViewById(R.id.addFavoriteButton);
+        if(db.checkExists(searchMedication.getId()) || db.getMedicationsCount()>4) {
+            addMedicationButton.hide();
+        }
+
+        final CompoundButton compoundButton = findViewById(R.id.search_switch);
         compoundButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(!compoundButton.isChecked())
+                if(!compoundButton.isChecked()) { //Could be removed
                     searchPharmaciesByPrice(searchMedication.getId());
-                else
+                } else {
                     searchPharmaciesByLocation(searchMedication.getId());
+                }
             }
         });
 
-        Button backButton = findViewById(R.id.goBackButton);
-        backButton.setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.goBackButton).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 finish();
@@ -302,12 +305,21 @@ public class PharmaciesActivity extends AppCompatActivity {
                 recreate();
             }
         });
+
     }
 
     @Override
     public void onRestart() {
         super.onRestart();
         recreate();
+    }
+
+    private void initializeAds(){
+        MobileAds.initialize(this, getString(R.string.ads_account));
+
+        AdView adView = findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        adView.loadAd(adRequest);
     }
 
 }

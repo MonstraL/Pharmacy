@@ -18,7 +18,6 @@ import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.MobileAds;
 import com.pharmaciesh.api.Api;
-import com.pharmaciesh.controller.Controller;
 import com.pharmaciesh.entity.Medication;
 import com.squareup.picasso.Picasso;
 
@@ -31,67 +30,56 @@ import retrofit2.Response;
 
 public class MedicationsSearchActivity extends AppCompatActivity {
 
-    private AdView mAdView;
-    TextView title;
+    private TextView title;
 
     public void setResults(List<Medication> medicationList){
         Iterator<Medication> medicationIterator = medicationList.iterator();
 
-        TextView nameText;
-        TextView formText;
-        Button searchPharmaciesButton;
-        Button searchBySubstanceButton;
-        Button instructionButton;
-
-        while(medicationIterator.hasNext())
-        {
+        while(medicationIterator.hasNext()) {
             //Inflater service
-            LayoutInflater layoutInfralte=(LayoutInflater)getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            LayoutInflater layoutInfralte = (LayoutInflater)getApplicationContext()
+                    .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             //parent layout xml refrence
-            LinearLayout linearLayout=(LinearLayout)findViewById(R.id.infolayout);
+            LinearLayout linearLayout= (LinearLayout) findViewById(R.id.infolayout);
             //Child layout xml refrence
             View view=layoutInfralte.inflate(R.layout.infoitem, null);
 
-            nameText = view.findViewById(R.id.nameText);
-            formText = view.findViewById(R.id.formText);
-
-            searchPharmaciesButton = view.findViewById(R.id.searchPharmaciesButton);
-            searchBySubstanceButton = view.findViewById(R.id.searchSubstanceButton);
-            instructionButton = view.findViewById(R.id.instructionButton);
-
             final Medication medication = medicationIterator.next();
 
-            instructionButton.setOnClickListener(new View.OnClickListener() {
+            view.findViewById(R.id.instructionButton).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Intent intent = new Intent(MedicationsSearchActivity.this, InstructionActivity.class);
-                    intent.putExtra("Medication", medication);
+                    Intent intent = new Intent(MedicationsSearchActivity.this,
+                            InstructionActivity.class);
+                    intent.putExtra(getString(R.string.parcelable_extra_medication), medication);
                     startActivity(intent);
                 }
             });
 
-            searchBySubstanceButton.setOnClickListener(new View.OnClickListener() {
+            view.findViewById(R.id.searchSubstanceButton).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Intent intent = new Intent(MedicationsSearchActivity.this, MedicationsSearchActivity.class);
-                    intent.putExtra("searchText", title.getText().toString());
-                    intent.putExtra("type", "Substance");
-                    intent.putExtra("Medication", medication);
+                    Intent intent = new Intent(MedicationsSearchActivity.this,
+                            MedicationsSearchActivity.class);
+                    intent.putExtra(getString(R.string.string_extra_search_text), title.getText().toString());
+                    intent.putExtra(getString(R.string.string_extra_type), "Substance");
+                    intent.putExtra(getString(R.string.parcelable_extra_medication), medication);
                     startActivity(intent);
                 }
             });
 
-            searchPharmaciesButton.setOnClickListener(new View.OnClickListener() {
+            view.findViewById(R.id.searchPharmaciesButton).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Intent intent = new Intent(MedicationsSearchActivity.this, PharmaciesActivity.class);
-                    intent.putExtra("Medication", medication);
+                    Intent intent = new Intent(MedicationsSearchActivity.this,
+                            PharmaciesActivity.class);
+                    intent.putExtra(getString(R.string.parcelable_extra_medication), medication);
                     startActivity(intent);
                 }
             });
 
-            nameText.setText(medication.getName());
-            formText.setText(medication.getReleaseForm());
+            ((TextView) view.findViewById(R.id.nameText)).setText(medication.getName());
+            ((TextView) view.findViewById(R.id.formText)).setText(medication.getReleaseForm());
 
             ImageView imageView = view.findViewById(R.id.imageView);
             Picasso.get()
@@ -116,20 +104,22 @@ public class MedicationsSearchActivity extends AppCompatActivity {
     }
 
     public void searchByName(String searchingText){
-
         // display a progress dialog
         final ProgressDialog progressDialog = new ProgressDialog(MedicationsSearchActivity.this);
         progressDialog.setCancelable(false); // set cancelable to false
-        progressDialog.setMessage("Зачекайте, будь ласка"); // set message
+        progressDialog.setMessage(getString(R.string.progress_dialog_text)); // set message
         progressDialog.show(); // show progress dialog
 
         Api.getMedication().getMedicationsByName(searchingText).enqueue(new Callback<List<Medication>>() {
+
             @Override
             public void onResponse(Call<List<Medication>> call, Response<List<Medication>> response) {
                 List<Medication> medicationList = response.body();
                 progressDialog.dismiss(); //dismiss progress dialog
-                if(medicationList.isEmpty())
-                    failureDialog("Лікарський засіб не знайдено", "Перейти на головну");
+                if(medicationList.isEmpty()) {
+                    failureDialog(getString(R.string.medication_empty_list_failure_message),
+                            getString(R.string.medication_failure_question));
+                }
                 setResults(medicationList);
                 // call this method to set the data in adapter
             }
@@ -137,7 +127,8 @@ public class MedicationsSearchActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<List<Medication>> call, Throwable t) {
                 progressDialog.dismiss(); //dismiss progress dialog
-                failureDialog("Немає з'єднання з сервером", "Перейти на головну");
+                failureDialog(getString(R.string.medication_failure_message),
+                        getString(R.string.medication_failure_question));
                 t.printStackTrace();
             }
 
@@ -146,11 +137,10 @@ public class MedicationsSearchActivity extends AppCompatActivity {
     }
 
     public void searchBySubstance(int id, String searchingText){
-
         // display a progress dialog
         final ProgressDialog progressDialog = new ProgressDialog(MedicationsSearchActivity.this);
         progressDialog.setCancelable(false); // set cancelable to false
-        progressDialog.setMessage("Зачекайте, будь ласка"); // set message
+        progressDialog.setMessage(getString(R.string.progress_dialog_text)); // set message
         progressDialog.show(); // show progress dialog
 
         Api.getMedication().getMedicationsBySubstance(id, searchingText).enqueue(new Callback<List<Medication>>() {
@@ -159,7 +149,8 @@ public class MedicationsSearchActivity extends AppCompatActivity {
                 List<Medication> medicationList = response.body();
                 progressDialog.dismiss(); //dismiss progress dialog
                 if(medicationList.isEmpty())
-                    failureDialog("Аналоги не знайдено", "Попередня сторінка");
+                    failureDialog( getString(R.string.analog_empty_list_failure_message),
+                            getString(R.string.medication_failure_question_prev_page));
                 setResults(medicationList);
                 // call this method to set the data in adapter
             }
@@ -167,7 +158,8 @@ public class MedicationsSearchActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<List<Medication>> call, Throwable t) {
                 progressDialog.dismiss(); //dismiss progress dialog
-                failureDialog("Немає з'єднання з сервером", "Попередня сторінка");
+                failureDialog(getString(R.string.medication_failure_message),
+                        getString(R.string.medication_failure_question_prev_page));
                 t.printStackTrace();
             }
 
@@ -180,23 +172,20 @@ public class MedicationsSearchActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.medications_search);
 
-        MobileAds.initialize(this, "ca-app-pub-3198313229258011~5462698642");
+        initializeAds();
 
-        mAdView = findViewById(R.id.adView);
-        AdRequest adRequest = new AdRequest.Builder().build();
-        mAdView.loadAd(adRequest);
-
-
-        String searchingText = getIntent().getExtras().getString("searchText");
-        String type = getIntent().getExtras().getString("type");
-        final Medication searchMedication = getIntent().getParcelableExtra("Medication");
+        String searchingText = getIntent().getExtras().getString(getString(R.string.string_extra_search_text));
+        String type = getIntent().getExtras().getString(getString(R.string.string_extra_type));
+        final Medication searchMedication = getIntent().getParcelableExtra(getString(R.string.medication_extra));
 
         title = findViewById(R.id.textToSearch2);
         title.setText(searchingText);
-        if(type.matches("Name"))
+
+        if(type.matches("Name")){
             searchByName(searchingText);
-        else    
+        } else {
             searchBySubstance(searchMedication.getId(), searchMedication.getActiveSub());
+        }
 
         final Button button = findViewById(R.id.searchButton2);
         button.setOnClickListener(new View.OnClickListener() {
@@ -206,11 +195,19 @@ public class MedicationsSearchActivity extends AppCompatActivity {
                 if(searchingText.getText().toString().length()<3)
                     return;
                 Intent intent = getIntent();
-                intent.putExtra("searchText", searchingText.getText().toString());
-                intent.putExtra("type", "Name");
+                intent.putExtra(getString(R.string.string_extra_search_text), searchingText.getText().toString());
+                intent.putExtra(getString(R.string.string_extra_type), "Name");
                 finish();
                 startActivity(intent);
             }
         });
+    }
+
+    private void initializeAds(){
+        MobileAds.initialize(this, getString(R.string.ads_account));
+
+        AdView adView = findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        adView.loadAd(adRequest);
     }
 }
