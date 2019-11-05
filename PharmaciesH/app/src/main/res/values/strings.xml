@@ -3,4 +3,32 @@
     <string name="priceLine">Ціна</string>
     <string name="distanceLine">Віддаленість</string>
     <string name="openStage">Відчинено</string>
+    <string name="ads_account">ca-app-pub-3198313229258011~5462698642</string>
+    <string name="medication_extra">Medication</string>
+    <string name="progress_dialog_text">Зачекайте, будь ласка</string>
+    <string name="medication_empty_list_failure_message">Лікарський засіб не знайдено</string>
+    <string name="analog_empty_list_failure_message">Лікарський засіб не знайдено</string>
+    <string name="medication_failure_message">Немає з\'єднання з сервером</string>
+    <string name="medication_failure_question">Перейти на головну</string>
+    <string name="medication_failure_question_prev_page">Попередня сторінка</string>
+    <string name="pharmacy_failure_to_find">Немає у наявності</string>
+
+    <!--Extras-->
+    <string name="parcelable_extra_medication">Medication</string>
+    <string name="string_extra_type">type</string>
+    <string name="string_extra_search_text">searchText</string>
+
+    <!--Pharmacies time-->
+    <string name="pharmacy_closed">Зачинено</string>
+    <string name="pharmacy_all_day_work">Цілодобово</string>
+    <string name="pharmacy_day_monday">Понеділок</string>
+    <string name="pharmacy_day_tuesday">Вівторок</string>
+    <string name="pharmacy_day_wednesday">Середа</string>
+    <string name="pharmacy_day_thursday">Четвер</string>
+    <string name="pharmacy_day_friday">П\'ятниця</string>
+    <string name="pharmacy_day_saturday">Субота</string>
+    <string name="pharmacy_day_sunday">Неділя</string>
+
+
+
 </resources>
