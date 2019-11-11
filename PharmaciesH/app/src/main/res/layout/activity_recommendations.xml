@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".RecommendationsActivity">
+
+    <RelativeLayout
+        android:id="@+id/topView"
+        android:layout_width="match_parent"
+        android:layout_height="127dp"
+        android:background="@drawable/recommendations_top">
+
+        <Button
+            android:id="@+id/goBackButton"
+            android:layout_width="66dp"
+            android:layout_height="60dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="0dp"
+            android:layout_marginTop="0dp"
+            android:background="@android:color/transparent" />
+
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true">
+
+            <EditText
+                android:id="@+id/symptomsToSearch"
+                android:layout_width="272dp"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="text"
+                android:selectAllOnFocus="false"
+                android:textColor="@android:color/darker_gray"
+                android:textStyle="bold|italic"
+                android:visibility="visible"
+                android:layout_gravity="center_horizontal"
+                tools:text="Введіть симптом" />
+
+        </FrameLayout>
+
+
+    </RelativeLayout>
+
+    <ScrollView
+        android:id="@+id/symptomsScroll"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:padding="20dp">
+
+        <LinearLayout
+            android:id="@+id/infolayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/symptom_button0"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginBottom="30dp"
+                android:background="@drawable/symptom_button" />
+
+
+            <Button
+                android:id="@+id/symptom_button1"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginBottom="30dp"
+                android:background="@drawable/symptom_button" />
+
+            <Button
+                android:id="@+id/symptom_button2"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginBottom="30dp"
+                android:background="@drawable/symptom_button" />
+
+
+            <Button
+                android:id="@+id/symptom_button3"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginBottom="30dp"
+                android:background="@drawable/symptom_button" />
+
+            <Button
+                android:id="@+id/symptom_button4"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginBottom="30dp"
+                android:background="@drawable/symptom_button" />
+
+            <Button
+                android:id="@+id/symptom_button5"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginBottom="30dp"
+                android:background="@drawable/symptom_button" />
+
+
+            <Button
+                android:id="@+id/symptom_button6"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginBottom="30dp"
+                android:background="@drawable/symptom_button" />
+
+        </LinearLayout>
+    </ScrollView>
+
+    <com.google.android.gms.ads.AdView
+        android:id="@+id/adView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:visibility="visible"
+        app:adSize="BANNER"
+        app:adUnitId="ca-app-pub-3940256099942544/6300978111" />
+
+</LinearLayout>

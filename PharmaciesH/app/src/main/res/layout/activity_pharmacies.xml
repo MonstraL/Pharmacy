@@ -6,22 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".PharmaciesActivity">
 
-    <ScrollView
-        android:id="@+id/pharmaciesScroll"
-        android:layout_width="match_parent"
-        android:layout_height="472dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_below="@+id/topView"
-        android:layout_marginTop="134dp">
-
-        <LinearLayout
-            android:id="@+id/pharmaciesLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical" />
-    </ScrollView>
-
     <RelativeLayout
         android:id="@+id/topView"
         android:layout_width="match_parent"
@@ -65,15 +49,21 @@
             android:textStyle="bold|italic" />
     </RelativeLayout>
 
-    <com.google.android.gms.ads.AdView
-        android:id="@+id/adView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:visibility="visible"
-        app:adSize="BANNER"
-        app:adUnitId="ca-app-pub-3940256099942544/6300978111" />
+    <ScrollView
+        android:id="@+id/pharmaciesScroll"
+        android:layout_width="match_parent"
+        android:layout_height="472dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_below="@+id/topView"
+        android:layout_marginTop="134dp">
+
+        <LinearLayout
+            android:id="@+id/pharmaciesLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" />
+    </ScrollView>
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/addFavoriteButton"
@@ -86,4 +76,14 @@
         android:clickable="true"
         app:fabSize="normal"
         app:srcCompat="@android:drawable/ic_input_add" />
+
+    <com.google.android.gms.ads.AdView
+        android:id="@+id/adView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:visibility="visible"
+        app:adSize="BANNER"
+        app:adUnitId="ca-app-pub-3940256099942544/6300978111" />
 </RelativeLayout>
