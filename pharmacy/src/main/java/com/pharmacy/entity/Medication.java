@@ -53,6 +53,15 @@ public class Medication {
     @JsonIgnoreProperties(value = {"medications"})
     private List<Pharmacy> pharmacies;
 
+    @ManyToMany
+    @JoinTable(
+            name="medications_symptoms",
+            joinColumns = @JoinColumn(name="medication_id"),
+            inverseJoinColumns = @JoinColumn(name="symptom_id")
+    )
+    @JsonIgnoreProperties(value = {"medications"})
+    private List<Symptom> symptoms;
+
     public Medication() {
     }
 

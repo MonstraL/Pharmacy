@@ -21,17 +21,17 @@ public class MedicationsSymptoms {
     @JsonIgnoreProperties(value = {"medications"})
     private Symptom symptom;
 
-    @Column(name="price")
-    private double price;
+    @Column(name="weight")
+    private double weight;
 
     public MedicationsSymptoms() {
     }
 
-    public MedicationsSymptoms(MedicationsSymptomsId id, Symptom symptom, Medication medication, float price) {
+    public MedicationsSymptoms(MedicationsSymptomsId id, Symptom symptom, Medication medication, double weight) {
         this.id = id;
         this.symptom = symptom;
         this.medication = medication;
-        this.price = price;
+        this.weight = weight;
     }
 
     public MedicationsSymptomsId getId() {
@@ -58,11 +58,12 @@ public class MedicationsSymptoms {
         this.medication = medication;
     }
 
-    public double getPrice() {
-        return price;
+    public double getWeight() {
+        return weight;
     }
 
-    public void setPrice(double price) {
-        this.price = price;
+    public void setWeight(double weight) {
+        this.weight = weight;
     }
+
 }

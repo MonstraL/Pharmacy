@@ -33,6 +33,8 @@
         <mapping class="com.pharmacy.entity.Pharmacy"/>
         <mapping class="com.pharmacy.entity.Medication"/>
         <mapping class="com.pharmacy.entity.PharmaciesMedications"/>
+        <mapping class="com.pharmacy.entity.Symptom"/>
+        <mapping class="com.pharmacy.entity.MedicationsSymptoms"/>
 
     </session-factory>
 
